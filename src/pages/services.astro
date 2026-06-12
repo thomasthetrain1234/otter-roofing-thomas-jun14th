@@ -1,0 +1,349 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+
+const faqs = [
+  {
+    q: 'How long does a roof replacement take?',
+    a: 'Most residential shingle replacements take one to two days once materials are on site. Bigger roofs, metal, and tile can run longer. Mark gives you a real schedule before work starts and tells you immediately if weather pushes it.',
+  },
+  {
+    q: 'Should I file an insurance claim or pay out of pocket?',
+    a: 'It depends on the damage, your policy, and your deductible. That is exactly what the free video inspection answers. If the damage looks like a covered loss, Mark walks you through the claim. If it does not, he says so and gives you a straight quote instead.',
+  },
+  {
+    q: 'What happens if my insurance claim gets denied?',
+    a: 'You owe nothing. The contingency agreement only commits you to Otter Roofing if the insurance company approves a replacement. If they say no, Mark shakes your hand and you part ways with zero cost.',
+  },
+  {
+    q: 'Shingle, metal, or tile: which is right for my house?',
+    a: 'Architectural shingle is the workhorse for most Jacksonville homes: strong wind ratings and the best cost per year of life. Metal costs more up front but lasts decades longer and handles coastal weather well. Tile suits specific home styles and needs a structure that can carry the weight. Mark walks you through real numbers for your roof, not a sales script.',
+  },
+  {
+    q: 'Do you do commercial roofs?',
+    a: 'The focus is residential, but yes. If you manage a commercial property, call and Mark will take a look and quote it honestly.',
+  },
+  {
+    q: 'What areas do you serve?',
+    a: 'Jacksonville and the surrounding Northeast Florida communities. If you are nearby and not sure, call. Worst case, Mark points you to someone good.',
+  },
+  {
+    q: 'Is the inspection really free?',
+    a: 'Yes. Every job starts with a free video inspection, whether or not you hire Otter Roofing. You get the footage and an honest read on your roof either way.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
+---
+
+<Base
+  title="Roof Replacement & Roof Repair in Jacksonville, FL | Otter Roofing"
+  description="Roof replacement (shingle, metal, tile) and roof repair in Jacksonville, FL. Free video inspections, honest quotes, and insurance claims guided start to finish. If the claim is denied, you owe nothing."
+  extraSchema={[faqSchema]}
+>
+  <!-- PAGE INTRO -->
+  <section class="section page-hero">
+    <div class="container">
+      <span class="kicker">Services</span>
+      <h1>Roofing for Jacksonville homes, done by the owner</h1>
+      <p class="section-intro">
+        Otter Roofing handles residential roof replacements and repairs across
+        Jacksonville and the surrounding area. Every job starts the same way:
+        Mark climbs your roof, records a video inspection, and shows you
+        exactly what he sees. Then you decide.
+      </p>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark</a>
+        <div>
+          <p class="phone-caption">Call or text</p>
+          <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROOF REPLACEMENT -->
+  <section class="section section--tan" id="replacement" aria-labelledby="replacement-heading">
+    <div class="container">
+      <span class="kicker">Roof Replacement</span>
+      <h2 id="replacement-heading">A new roof, managed by one person</h2>
+      <p class="section-intro">
+        Full tear-off, clean install, full cleanup. Mark orders the materials,
+        schedules the crew, supervises the install, and walks the finished roof
+        with you. One point of contact from the first phone call to the final
+        nail.
+      </p>
+
+      <div class="material-grid">
+        <article class="card" id="shingle">
+          <h3>Shingle</h3>
+          <p>
+            The specialty. Architectural shingles are the right answer for most
+            Jacksonville homes: strong wind ratings for storm season, a wide
+            range of colors, and the best value per year of roof life. Mark has
+            run shingle replacements end to end since his restoration days, and
+            it is the system he knows inside out.
+          </p>
+          <p>
+            Every shingle replacement includes new underlayment, flashing, and
+            ridge venting where the roof needs it. No reusing tired components
+            under a new surface.
+          </p>
+        </article>
+        <article class="card" id="metal">
+          <h3>Metal</h3>
+          <p>
+            Higher cost up front, decades more life. Metal stands up well to
+            coastal sun and wind, sheds rain fast, and can drop cooling bills.
+            If you plan to stay in your home long term, it is worth a serious
+            look. Mark will give you the honest math on both options.
+          </p>
+        </article>
+        <article class="card" id="tile">
+          <h3>Tile</h3>
+          <p>
+            The right fit for certain home styles, and a system that demands
+            careful installation. Tile is heavy, so the structure has to be up
+            to it. If tile suits your house, Mark will tell you. If it does
+            not, he will tell you that too.
+          </p>
+        </article>
+      </div>
+
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark about a replacement</a>
+        <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROOF REPAIRS -->
+  <section class="section" id="repairs" aria-labelledby="repairs-heading">
+    <div class="container">
+      <span class="kicker">Roof Repairs</span>
+      <h2 id="repairs-heading">Small jobs, taken seriously</h2>
+      <p class="section-intro">
+        Storm damage, leaks, missing shingles, cracked flashing, and the fixes
+        a lot of companies will not bother with. Repairs are how Mark earns
+        trust in a neighborhood: do the small job right, and you become the
+        person they call when the big one comes. He treats a repair with the
+        same attention as a full replacement, because it is the same roof over
+        the same family.
+      </p>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark about a repair</a>
+        <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSURANCE CLAIMS -->
+  <section class="section section--slate" id="insurance" aria-labelledby="insurance-heading">
+    <div class="container">
+      <span class="kicker">Insurance Claims</span>
+      <h2 id="insurance-heading">If your claim gets denied, you owe nothing</h2>
+      <p class="section-intro">
+        Here is the deal, in plain English. If Mark inspects your roof and
+        believes your insurance company is likely to cover it, you sign a
+        contingency agreement. That means he guides your entire claim: the
+        paperwork, the documentation, the phone calls, and he stands on your
+        roof next to the adjuster at the inspection to advocate for you.
+      </p>
+      <p class="section-intro">
+        You only commit to Otter Roofing as your contractor if the insurance
+        company approves the claim for a replacement. If they say no, Mark
+        shakes your hand and walks away. No fee, no invoice, no fine print.
+        That is the whole agreement.
+      </p>
+      <ul class="promise-list">
+        <li>Free video inspection first, so you see the damage yourself</li>
+        <li>Honest read on whether a claim is even worth filing</li>
+        <li>Mark attends the adjuster's inspection in person</li>
+        <li>You owe nothing if the claim is denied</li>
+      </ul>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark about your claim</a>
+        <div>
+          <p class="phone-caption phone-caption--light">Call or text</p>
+          <a class="phone-plain phone-plain--light" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUT OF POCKET -->
+  <section class="section" id="out-of-pocket" aria-labelledby="oop-heading">
+    <div class="container">
+      <span class="kicker">Paying Out of Pocket</span>
+      <h2 id="oop-heading">Inspect. Quote. You decide.</h2>
+      <p class="section-intro">
+        Not every roof is an insurance job, and Mark will never pretend yours
+        is to make a sale. If you are paying out of pocket, the process is
+        simple: free video inspection, a clear written quote with pricing
+        explained line by line, and time to think it over. You bite or you do
+        not. Either way, you keep the inspection footage and the honest
+        assessment.
+      </p>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark, get a quote</a>
+        <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--tan" id="faq" aria-labelledby="faq-heading">
+    <div class="container">
+      <span class="kicker">Questions</span>
+      <h2 id="faq-heading">Straight answers to common questions</h2>
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.q}</summary>
+            <p>{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Not sure what your roof needs?"
+    text="That is what the free video inspection is for. Call Mark and find out."
+  />
+</Base>
+
+<style>
+  .page-hero h1 {
+    max-width: 22ch;
+  }
+
+  .material-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+
+  /* Shingle card gets visual lead weight to match its lead emphasis */
+  .material-grid #shingle {
+    grid-column: 1 / -1;
+    border-top-color: var(--slate);
+  }
+
+  @media (min-width: 900px) {
+    .material-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .material-grid #shingle {
+      grid-column: auto;
+      grid-row: 1 / 3;
+    }
+  }
+
+  .material-grid .card p + p {
+    margin-top: 1rem;
+  }
+
+  .promise-list {
+    margin-top: 2rem;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+    max-width: 38rem;
+  }
+
+  .promise-list li {
+    position: relative;
+    padding-left: 2.1rem;
+    color: var(--cream);
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .promise-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--tan);
+    color: var(--slate);
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-caption--light {
+    color: var(--tan);
+  }
+
+  /* FAQ accordion: native details/summary, no JS, keyboard accessible */
+  .faq-list {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    max-width: 50rem;
+  }
+
+  .faq-item {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.25rem;
+    padding: 1.1rem 1.5rem;
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--slate);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--brick);
+    transition: transform 0.15s ease;
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-item p {
+    padding: 0 1.5rem 1.4rem;
+  }
+</style>

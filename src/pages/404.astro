@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+---
+
+<Base
+  title="Page Not Found | Otter Roofing"
+  description="That page does not exist. Head back to the Otter Roofing home page or call Mark directly."
+>
+  <section class="section">
+    <div class="container">
+      <h1>That page slid off the roof</h1>
+      <p class="section-intro">
+        Whatever you were looking for is not here. The home page is, and so is
+        Mark.
+      </p>
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href="/">Back to home</a>
+        <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+      </div>
+    </div>
+  </section>
+</Base>

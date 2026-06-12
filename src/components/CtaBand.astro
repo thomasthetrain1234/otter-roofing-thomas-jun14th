@@ -1,0 +1,65 @@
+---
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+
+interface Props {
+  heading?: string;
+  text?: string;
+}
+
+const {
+  heading = 'One number. One roofer. Start to finish.',
+  text = 'Call Mark for a free video roof inspection. No call center, no sales pitch, no pressure.',
+} = Astro.props;
+---
+
+<section class="cta-band">
+  <div class="container cta-band-inner">
+    <div>
+      <h2>{heading}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="cta-band-actions">
+      <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark</a>
+      <div>
+        <p class="phone-caption phone-caption--light">Call or text</p>
+        <a class="phone-plain phone-plain--light" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    background: var(--slate);
+    padding-block: clamp(3rem, 2.5rem + 2.5vw, 5rem);
+  }
+
+  .cta-band h2 {
+    color: var(--cream);
+  }
+
+  .cta-band p {
+    color: rgba(247, 244, 238, 0.88);
+    margin-top: 0.75rem;
+    font-size: var(--text-lg);
+  }
+
+  .cta-band-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .cta-band-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+  }
+
+  .phone-caption--light {
+    color: var(--tan);
+  }
+</style>

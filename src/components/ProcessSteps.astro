@@ -1,0 +1,401 @@
+---
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+
+interface Step {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+
+<section class="process" aria-labelledby="process-heading" data-process>
+  <div class="container process-layout">
+    <div class="process-sticky">
+      <span class="kicker">How It Works</span>
+      <h2 id="process-heading">Four steps.<br />No runaround.</h2>
+
+      <div class="process-status" aria-hidden="true">
+        <div class="process-numbers">
+          {steps.map((_, index) => (
+            <span
+              class={`process-number${index === 0 ? ' is-active' : ''}`}
+              data-process-number
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+          ))}
+        </div>
+        <div class="process-progress">
+          <span class="process-progress-fill"></span>
+        </div>
+        <span class="process-count">{String(steps.length).padStart(2, '0')}</span>
+      </div>
+
+      <div class="process-cta">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark</a>
+        <div>
+          <p class="phone-caption">Call or text</p>
+          <a class="phone-plain phone-plain--light" href={`tel:${PHONE_TEL}`}>
+            {PHONE_DISPLAY}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <ol class="process-steps">
+      {steps.map((step, index) => (
+        <li
+          class={`process-step${index === 0 ? ' is-active' : ''}`}
+          data-process-step
+        >
+          <span class="step-index" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <div>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  const processSections = document.querySelectorAll<HTMLElement>('[data-process]');
+
+  processSections.forEach((section) => {
+    const steps = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-process-step]'),
+    );
+    const numbers = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-process-number]'),
+    );
+    const desktop = window.matchMedia('(min-width: 741px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let observer: IntersectionObserver | undefined;
+
+    const setActiveStep = (activeIndex: number) => {
+      steps.forEach((step, index) => {
+        const isActive = index === activeIndex;
+        step.classList.toggle('is-active', isActive);
+        if (isActive) {
+          step.setAttribute('aria-current', 'step');
+        } else {
+          step.removeAttribute('aria-current');
+        }
+      });
+
+      numbers.forEach((number, index) => {
+        number.classList.toggle('is-active', index === activeIndex);
+      });
+
+      const progress =
+        steps.length > 1 ? (activeIndex / (steps.length - 1)) * 100 : 100;
+      section.style.setProperty('--process-progress', `${progress}%`);
+    };
+
+    const disableStory = () => {
+      observer?.disconnect();
+      observer = undefined;
+      section.removeAttribute('data-enhanced');
+      steps.forEach((step) => step.removeAttribute('aria-current'));
+    };
+
+    const enableStory = () => {
+      disableStory();
+
+      if (!desktop.matches || reduceMotion.matches || steps.length === 0) return;
+
+      section.setAttribute('data-enhanced', '');
+      setActiveStep(0);
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          const activeEntry = entries.find((entry) => entry.isIntersecting);
+          if (!activeEntry) return;
+
+          const activeIndex = steps.indexOf(activeEntry.target as HTMLElement);
+          if (activeIndex >= 0) setActiveStep(activeIndex);
+        },
+        {
+          rootMargin: '-45% 0px -45% 0px',
+          threshold: 0,
+        },
+      );
+
+      steps.forEach((step) => observer?.observe(step));
+    };
+
+    enableStory();
+    desktop.addEventListener('change', enableStory);
+    reduceMotion.addEventListener('change', enableStory);
+  });
+</script>
+
+<style>
+  .process {
+    --process-progress: 0%;
+    color: var(--cream);
+    background:
+      radial-gradient(circle at 18% 18%, rgba(217, 185, 138, 0.1), transparent 28rem),
+      var(--slate-deep);
+  }
+
+  .process-layout {
+    display: grid;
+    grid-template-columns: minmax(17rem, 0.82fr) minmax(24rem, 1.18fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+  }
+
+  .process-sticky {
+    position: sticky;
+    top: 8rem;
+    min-height: calc(100vh - 10rem);
+    padding-block: clamp(4rem, 7vh, 6rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .process .kicker {
+    color: var(--tan);
+  }
+
+  .process h2,
+  .process h3 {
+    color: var(--cream);
+  }
+
+  .process h2 {
+    max-width: 11ch;
+  }
+
+  .process-status {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    width: min(100%, 25rem);
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .process-numbers {
+    position: relative;
+    width: 7.5rem;
+    height: 6rem;
+  }
+
+  .process-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 8vw, 6.5rem);
+    line-height: 1;
+    color: var(--brick);
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 300ms ease, transform 300ms ease;
+  }
+
+  .process-number.is-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .process-progress {
+    position: relative;
+    height: 2px;
+    overflow: hidden;
+    background: rgba(247, 244, 238, 0.22);
+  }
+
+  .process-progress-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--process-progress);
+    background: var(--tan);
+    transition: width 350ms ease;
+  }
+
+  .process-count {
+    color: var(--tan);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .process-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .process-cta .phone-caption {
+    color: var(--tan);
+  }
+
+  .process-steps {
+    list-style: none;
+    padding: 0;
+  }
+
+  .process-step {
+    min-height: 72vh;
+    padding-block: clamp(4rem, 12vh, 8rem);
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-content: center;
+    border-bottom: 1px solid rgba(247, 244, 238, 0.16);
+  }
+
+  .process-step:last-child {
+    border-bottom: 0;
+  }
+
+  .step-index {
+    padding-top: 0.3rem;
+    color: var(--tan);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .process-step h3 {
+    font-size: clamp(1.65rem, 1.2rem + 1.8vw, 2.65rem);
+  }
+
+  .process-step p {
+    margin-top: 1rem;
+    color: rgba(247, 244, 238, 0.82);
+    font-size: var(--text-lg);
+  }
+
+  .process[data-enhanced] .process-step {
+    opacity: 0.38;
+    transform: translateY(1.25rem);
+    transition: opacity 350ms ease, transform 350ms ease;
+  }
+
+  .process[data-enhanced] .process-step.is-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .process-layout {
+      grid-template-columns: minmax(15rem, 0.75fr) minmax(20rem, 1.25fr);
+      gap: 3rem;
+    }
+
+    .process-sticky {
+      top: 7rem;
+    }
+
+    .process-step {
+      grid-template-columns: 3rem 1fr;
+    }
+  }
+
+  @media (max-width: 740px) {
+    .process {
+      padding-block: clamp(3.5rem, 3rem + 3vw, 5rem);
+    }
+
+    .process-layout {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .process-sticky {
+      display: contents;
+    }
+
+    .process h2 {
+      max-width: 12ch;
+    }
+
+    .process-status {
+      display: none;
+    }
+
+    .process-steps {
+      order: 2;
+      margin-top: 2.75rem;
+      border-top: 1px solid rgba(247, 244, 238, 0.16);
+    }
+
+    .process-step {
+      min-height: 0;
+      padding-block: 2.25rem;
+      grid-template-columns: 3.25rem 1fr;
+      gap: 1rem;
+    }
+
+    .step-index {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.25rem;
+      height: 3.25rem;
+      padding: 0;
+      border: 2px solid var(--brick);
+      border-radius: 50%;
+      color: var(--cream);
+    }
+
+    .process-step h3 {
+      font-size: 1.4rem;
+    }
+
+    .process-step p {
+      font-size: var(--text-base);
+    }
+
+    .process-cta {
+      order: 3;
+      margin-top: 2.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process-layout {
+      display: flex;
+      flex-direction: column;
+      padding-block: clamp(3.5rem, 3rem + 3vw, 5rem);
+    }
+
+    .process-sticky {
+      display: contents;
+    }
+
+    .process-status {
+      display: none;
+    }
+
+    .process-steps {
+      order: 2;
+      margin-top: 2.75rem;
+    }
+
+    .process-cta {
+      order: 3;
+    }
+
+    .process-step {
+      min-height: 0;
+      padding-block: 2.5rem;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

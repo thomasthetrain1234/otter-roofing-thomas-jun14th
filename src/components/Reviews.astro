@@ -1,0 +1,81 @@
+---
+/**
+ * REVIEWS SECTION: BUILT, BUT HIDDEN.
+ *
+ * This component renders nothing until SHOW_REVIEWS in src/config.ts is
+ * flipped to true. The Google Business profile does not exist yet and no
+ * testimonials may be fabricated, so the entries below are obvious
+ * structural placeholders. Once real Google reviews exist:
+ *
+ *   1. Replace the placeholder entries in `reviews` below with real review
+ *      text, real first names, and real star counts. Copy them verbatim.
+ *   2. Set `googleProfileUrl` to the live Google Business profile link.
+ *   3. Set SHOW_REVIEWS = true in src/config.ts.
+ */
+import { SHOW_REVIEWS } from '../config';
+
+const googleProfileUrl = '#'; // TODO: live Google Business profile URL
+
+const reviews = [
+  {
+    name: 'REVIEWER-NAME',
+    stars: 5,
+    text: 'REVIEW-TEXT-PLACEHOLDER: paste the real Google review here, word for word.',
+  },
+  {
+    name: 'REVIEWER-NAME',
+    stars: 5,
+    text: 'REVIEW-TEXT-PLACEHOLDER: paste the real Google review here, word for word.',
+  },
+  {
+    name: 'REVIEWER-NAME',
+    stars: 5,
+    text: 'REVIEW-TEXT-PLACEHOLDER: paste the real Google review here, word for word.',
+  },
+];
+---
+
+{
+  SHOW_REVIEWS && (
+    <section class="section section--tan" aria-labelledby="reviews-heading">
+      <div class="container">
+        <span class="kicker">Reviews</span>
+        <h2 id="reviews-heading">What neighbors say</h2>
+        <div class="card-grid">
+          {reviews.map((review) => (
+            <article class="card review-card">
+              <p class="stars" aria-label={`${review.stars} out of 5 stars`}>
+                {'★'.repeat(review.stars)}
+              </p>
+              <p>{review.text}</p>
+              <p class="reviewer">{review.name}, via Google</p>
+            </article>
+          ))}
+        </div>
+        <p class="reviews-link">
+          <a href={googleProfileUrl}>Read all reviews on Google</a>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .stars {
+    color: var(--brick);
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  .reviewer {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: var(--slate);
+  }
+
+  .reviews-link {
+    margin-top: 2rem;
+    font-weight: 600;
+  }
+</style>

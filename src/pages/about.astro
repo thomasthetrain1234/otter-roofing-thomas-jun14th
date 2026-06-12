@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+---
+
+<Base
+  title="About Mark Otterbourg | Veteran-Owned Roofing in Jacksonville, FL"
+  description="Meet Mark Otterbourg: Jacksonville native, 8-year Marine Corps veteran, and licensed roofing contractor. Otter Roofing is his owner-operated roofing company serving Jacksonville, FL."
+>
+  <!-- PAGE HERO -->
+  <section class="section page-hero">
+    <div class="container about-hero">
+      <div>
+        <span class="kicker">About Otter Roofing</span>
+        <h1>The guy on your roof</h1>
+        <p class="section-intro">
+          Otter Roofing is one licensed contractor with his name on the truck
+          and his number on this page. This is who you are calling.
+        </p>
+        <p class="badge badge--outline">Veteran-Owned &amp; Operated</p>
+      </div>
+      <!-- HEADSHOT SLOT: replace with /public/assets/about/mark-headshot.jpg
+           (square, at least 800x800). See ASSETS.md. -->
+      <div class="placeholder-media about-headshot" role="img" aria-label="Headshot of Mark Otterbourg, owner of Otter Roofing">
+        <span>Mark's headshot<br />800 x 800</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="section section--tan" aria-labelledby="story-heading">
+    <div class="container story">
+      <span class="kicker">Mark's Story</span>
+      <h2 id="story-heading">From Jacksonville, for Jacksonville</h2>
+
+      <p>
+        I was born and raised here in Jacksonville. In 2016 I enlisted in the
+        Marine Corps and spent eight years as an infantryman and marksmanship
+        instructor. Along the way I managed facility maintenance projects, and
+        that is where construction got its hooks in me. I liked work you could
+        stand back and look at.
+      </p>
+      <p>
+        I got out in 2024 and went to work as a restoration consultant at a
+        roofing company. I ran jobs from the first knock on the door to the
+        final walkthrough: initial inspections, ordering materials, scheduling
+        crews, and supervising projects through to completion. I saw what good
+        roofing work looks like. I also saw how often homeowners get passed
+        from a salesperson to a project manager to an office they can never
+        get on the phone.
+      </p>
+      <p>
+        So I earned my own roofing contractor license and started Otter
+        Roofing. The name is a play on my last name, Otterbourg, and honestly,
+        the otter fits: hard-working, thorough, and happiest when the job gets
+        done right.
+      </p>
+      <p>
+        When you hire Otter Roofing, you get me. Not a sales team, not an
+        account manager, not a phone tree. I do the inspection, I manage the
+        job, and I answer the questions, from the first call to the last
+        shingle. That is not a limitation of a new company. It is the entire
+        point of this one.
+      </p>
+
+      <div class="cta-cluster">
+        <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Call Mark</a>
+        <div>
+          <p class="phone-caption">Call or text</p>
+          <a class="phone-plain" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE + DISCIPLINE -->
+  <section class="section" aria-labelledby="service-heading">
+    <div class="container service-grid">
+      <div>
+        <span class="kicker">Eight Years, USMC</span>
+        <h2 id="service-heading">What the Marine Corps left behind</h2>
+        <p class="section-intro">
+          Mark does not lead with his service, but it shaped how he works:
+          show up when you said you would, give straight answers, sweat the
+          details, and finish what you start. Jacksonville is a military town,
+          and plenty of his neighbors know exactly what that discipline looks
+          like on a job site.
+        </p>
+      </div>
+      <!-- TRUCK PHOTO SLOT: replace with /public/assets/about/truck-decal.jpg
+           (landscape, at least 1600x1000). See ASSETS.md. -->
+      <div class="placeholder-media truck-photo" role="img" aria-label="Otter Roofing truck with company decal">
+        <span>Truck decal photo<br />1600 x 1000</span>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Want a straight answer about your roof?"
+    text="Call Mark. He picks up, and the inspection is free."
+  />
+</Base>
+
+<style>
+  .about-hero {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+  }
+
+  .about-hero .badge--outline {
+    margin-top: 1.5rem;
+  }
+
+  .about-headshot {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 22rem;
+    justify-self: end;
+  }
+
+  .story p {
+    margin-top: 1.25rem;
+    font-size: var(--text-lg);
+  }
+
+  .service-grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+  }
+
+  .truck-photo {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+  }
+
+  @media (max-width: 800px) {
+    .about-hero,
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-headshot {
+      justify-self: start;
+      max-width: 18rem;
+    }
+  }
+</style>

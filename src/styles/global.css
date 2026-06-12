@@ -1,0 +1,367 @@
+/* ==========================================================================
+   OTTER ROOFING — GLOBAL STYLES
+   Brand palette lives in CSS variables below. When the final logo lands,
+   adjust these four values and the whole site follows.
+   ========================================================================== */
+
+:root {
+  /* Brand palette */
+  --brick: #a8423d;        /* primary red: CTAs, accents */
+  --brick-dark: #8d3531;   /* hover state, AA-safe on cream */
+  --slate: #2e3e42;        /* dark teal/charcoal: headlines, dark bands */
+  --slate-deep: #243034;   /* darker slate for footer / hero overlay */
+  --tan: #d9b98a;          /* warm secondary backgrounds, highlights */
+  --tan-soft: #ecdfc8;     /* lighter tan wash for section backgrounds */
+  --cream: #f7f4ee;        /* page background */
+  --white: #ffffff;
+  --ink: #26312f;          /* body text on cream, near-slate */
+
+  /* Type */
+  --font-display: 'Alfa Slab One', 'Rockwell', 'Georgia', serif;
+  --font-body: 'Inter Variable', 'Inter', -apple-system, 'Segoe UI', sans-serif;
+
+  /* Scale: body never drops below 18px */
+  --text-base: 1.125rem;       /* 18px */
+  --text-lg: 1.25rem;          /* 20px */
+  --text-xl: 1.5rem;           /* 24px */
+  --text-display-sm: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+  --text-display-md: clamp(2rem, 1.4rem + 3vw, 3.2rem);
+  --text-display-lg: clamp(2.4rem, 1.6rem + 4.5vw, 4.4rem);
+
+  /* Layout */
+  --container: 72rem;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 2px 6px rgba(46, 62, 66, 0.08), 0 12px 28px rgba(46, 62, 66, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   Reset + base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* anchor links clear the sticky header */
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400; /* Alfa Slab One ships a single heavy weight */
+  line-height: 1.12;
+  color: var(--slate);
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-display-lg);
+}
+
+h2 {
+  font-size: var(--text-display-md);
+}
+
+h3 {
+  font-size: var(--text-display-sm);
+}
+
+h4 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--slate);
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: var(--brick-dark);
+}
+
+a:hover {
+  color: var(--brick);
+}
+
+ul,
+ol {
+  padding-left: 1.4rem;
+}
+
+/* Visible focus everywhere, brand-colored */
+:focus-visible {
+  outline: 3px solid var(--brick);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--tan);
+  color: var(--slate);
+}
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: min(var(--container), 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+}
+
+.section--tan {
+  background: var(--tan-soft);
+}
+
+.section--slate {
+  background: var(--slate);
+}
+
+.section--slate h2,
+.section--slate h3,
+.section--slate p {
+  color: var(--cream);
+}
+
+.kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brick-dark);
+  margin-bottom: 0.75rem;
+}
+
+.section--slate .kicker {
+  color: var(--tan);
+}
+
+.section-intro {
+  font-size: var(--text-lg);
+  margin-top: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons + phone treatments
+   All tap targets >= 48px tall.
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.9rem;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-base);
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--brick);
+  color: var(--white);
+}
+
+.btn--primary:hover {
+  background: var(--brick-dark);
+  color: var(--white);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--slate);
+  border-color: var(--slate);
+}
+
+.btn--ghost:hover {
+  background: var(--slate);
+  color: var(--cream);
+}
+
+.btn--ghost-light {
+  background: transparent;
+  color: var(--cream);
+  border-color: var(--cream);
+}
+
+.btn--ghost-light:hover {
+  background: var(--cream);
+  color: var(--slate);
+}
+
+/* Large plain-text phone number. Rendered as selectable text, always. */
+.phone-plain {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1.5vw, 2rem);
+  color: var(--slate);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.phone-plain:hover {
+  color: var(--brick-dark);
+}
+
+.phone-plain--light {
+  color: var(--cream);
+}
+
+.phone-plain--light:hover {
+  color: var(--tan);
+}
+
+.phone-caption {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brick-dark);
+  margin-bottom: 0.15rem;
+}
+
+/* CTA cluster: button + phone side by side, stacking on small screens */
+.cta-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2rem;
+  margin-top: 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  box-shadow: var(--shadow-card);
+  border-top: 5px solid var(--brick);
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  font-size: var(--text-base);
+}
+
+/* --------------------------------------------------------------------------
+   Badge: the entire veteran visual treatment, per brand rules.
+   -------------------------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: var(--slate);
+  color: var(--tan);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge--outline {
+  background: transparent;
+  color: var(--slate);
+  border: 2px solid var(--slate);
+}
+
+/* --------------------------------------------------------------------------
+   Image / video placeholder slots (replaced by real assets later)
+   -------------------------------------------------------------------------- */
+
+.placeholder-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    linear-gradient(145deg, rgba(46, 62, 66, 0.92), rgba(36, 48, 52, 0.96)),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(217, 185, 138, 0.12) 0 14px,
+      transparent 14px 28px
+    );
+  color: var(--tan);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: kill animations and smooth scroll; the hero script
+   also refuses to autoplay video when this preference is set.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

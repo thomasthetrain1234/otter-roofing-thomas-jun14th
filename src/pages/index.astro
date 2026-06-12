@@ -1,0 +1,347 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Reviews from '../components/Reviews.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+
+/*
+ * HERO HEADLINE: three options were drafted; option A shipped.
+ *   A. "Call a Roofer. Get the Owner."  (shortest, sharpest, leads with the #1 differentiator)
+ *   B. "Jacksonville's Roofer Who Actually Answers the Phone"
+ *   C. "One Number. One Roofer. Start to Finish."  (reused as the closing CTA band instead)
+ */
+
+const differentiators = [
+  {
+    title: 'You talk to the owner. Every time.',
+    text: 'One phone number, and Mark answers it. No call center, no sales rep, no game of telephone between five departments. The person who inspects your roof is the person who runs your job.',
+  },
+  {
+    title: 'Video inspections. See what he sees.',
+    text: 'Mark climbs your roof and records the whole inspection on video. You see the actual damage with your own eyes before anyone says a word about money.',
+  },
+  {
+    title: 'Insurance claims, guided start to finish.',
+    text: 'If your roof looks like an insurance job, Mark builds the claim with you and stands on your roof next to the adjuster to advocate for you. If the claim gets denied, you owe him nothing.',
+  },
+  {
+    title: 'Eight years in the Marine Corps. It shows.',
+    text: 'Mark served eight years as a Marine before he picked up a contractor license. The discipline stuck: straight answers, clean job sites, and follow-through on every detail.',
+  },
+];
+
+const steps = [
+  {
+    title: 'Call Mark',
+    text: 'One number, and the owner picks up. Tell him what is going on with your roof.',
+  },
+  {
+    title: 'Free video roof inspection',
+    text: 'Mark climbs up, records what he finds, and walks you through the footage. No charge, no strings attached.',
+  },
+  {
+    title: 'Insurance or out of pocket',
+    text: 'He tells you honestly which path makes sense. If insurance is the right call, he handles the claim with you. If it is not, you get a clear quote and zero pressure.',
+  },
+  {
+    title: 'Your roof, done right',
+    text: 'The same person who inspected your roof manages the job to the last nail, then walks the finished work with you.',
+  },
+];
+
+const services = [
+  {
+    title: 'Roof Replacement',
+    text: 'Shingle is the specialty, with metal and tile also on the menu. Full tear-off, clean install, full cleanup.',
+    href: '/services#replacement',
+    label: 'Replacement details',
+  },
+  {
+    title: 'Roof Repair',
+    text: 'Storm damage, leaks, missing shingles, and the smaller fixes other companies will not pick up the phone for.',
+    href: '/services#repairs',
+    label: 'Repair details',
+  },
+  {
+    title: 'Insurance Claim Help',
+    text: 'Free inspection, honest read on your claim, and an advocate on the roof when the adjuster shows up.',
+    href: '/services#insurance',
+    label: 'How claims work',
+  },
+];
+---
+
+<Base
+  title="Otter Roofing | Veteran-Owned Roofing Company in Jacksonville, FL"
+  description="Otter Roofing is a veteran-owned roofing company in Jacksonville, FL. Roof replacement and roof repair by a licensed contractor who inspects on video, guides insurance claims, and answers his own phone."
+>
+  <!-- ====================================================================
+       HERO
+       A slow three-image crossfade (pure CSS, no JS) sits behind a cream
+       content card. Swap the photos by replacing the files at
+       /public/assets/hero/hero-1.jpg, hero-2.jpg, hero-3.jpg (see ASSETS.md).
+       Reduced-motion users get a static first image.
+       ==================================================================== -->
+  <section class="hero">
+    <div class="hero-slides" aria-hidden="true">
+      <img class="hero-slide" src="/assets/hero/hero-1.jpg" alt="" width="1600" height="1067" fetchpriority="high" />
+      <img class="hero-slide" src="/assets/hero/hero-2.jpg" alt="" width="1600" height="1067" />
+      <img class="hero-slide" src="/assets/hero/hero-3.jpg" alt="" width="1600" height="1067" />
+    </div>
+    <div class="container hero-inner">
+      <div class="hero-card">
+        <h1>Call a Roofer.<br />Get the <span class="hero-accent">Owner.</span></h1>
+        <p class="hero-sub">
+          Otter Roofing is run by Mark Otterbourg: Jacksonville native, Marine
+          Corps veteran, licensed roofing contractor. He inspects your roof on
+          video, guides your insurance claim, and manages the job himself.
+        </p>
+        <div class="cta-cluster">
+          <a class="btn btn--primary hero-btn" href={`tel:${PHONE_TEL}`}>Talk to Mark</a>
+          <div>
+            <p class="phone-caption">Call or text</p>
+            <a class="phone-plain hero-phone" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+          </div>
+        </div>
+        <p class="trust-strip">
+          Veteran-Owned &amp; Operated &bull; Licensed Roofing Contractor &bull; Jacksonville, FL
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE OTTER DIFFERENCE -->
+  <section class="section" aria-labelledby="difference-heading">
+    <div class="container">
+      <span class="kicker">The Otter Difference</span>
+      <h2 id="difference-heading">Why homeowners call Otter Roofing</h2>
+      <div class="card-grid">
+        {differentiators.map((item) => (
+          <article class="card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES OVERVIEW -->
+  <section class="section section--tan" aria-labelledby="services-heading">
+    <div class="container">
+      <span class="kicker">Services</span>
+      <h2 id="services-heading">Residential roofing in Jacksonville</h2>
+      <p class="section-intro">
+        Roof replacements and repairs for homes across Jacksonville and the
+        surrounding area. Commercial property? Call, Mark is happy to quote it.
+      </p>
+      <div class="card-grid">
+        {services.map((service) => (
+          <article class="card service-card">
+            <h3>{service.title}</h3>
+            <p>{service.text}</p>
+            <a class="service-link" href={service.href}>{service.label}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ProcessSteps steps={steps} />
+
+  <!-- MEET MARK TEASER -->
+  <section class="section section--tan" aria-labelledby="mark-heading">
+    <div class="container meet-mark">
+      <!-- HEADSHOT SLOT: replace with /public/assets/about/mark-headshot.jpg
+           (square, at least 800x800). See ASSETS.md. -->
+      <div class="placeholder-media headshot" role="img" aria-label="Headshot of Mark Otterbourg, owner of Otter Roofing">
+        <span>Mark's headshot<br />800 x 800</span>
+      </div>
+      <div>
+        <span class="kicker">Meet Mark</span>
+        <h2 id="mark-heading">The guy on your roof</h2>
+        <p class="section-intro">
+          Mark Otterbourg was born and raised in Jacksonville. He spent eight
+          years in the Marine Corps, ran roofing projects end to end for a
+          restoration company after getting out, then earned his contractor
+          license and started Otter Roofing. Real name, real license, and his
+          face on every job.
+        </p>
+        <div class="cta-cluster">
+          <a class="btn btn--ghost" href="/about">Read Mark's story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS: built and hidden behind SHOW_REVIEWS in src/config.ts -->
+  <Reviews />
+
+  <CtaBand />
+</Base>
+
+<style>
+  /* HERO: three photos crossfade behind a single content card. The slate
+     scrim keeps the photos quiet so the card stays the focal point. */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--slate-deep);
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem);
+  }
+
+  .hero-slides {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: hero-fade 18s ease-in-out infinite;
+  }
+
+  /* 18s cycle, 6s per photo, 1s crossfades. Negative delays stagger the
+     slides; base opacity below doubles as the reduced-motion fallback. */
+  .hero-slide:nth-child(1) {
+    opacity: 1;
+  }
+
+  .hero-slide:nth-child(2) {
+    animation-delay: -12s;
+  }
+
+  .hero-slide:nth-child(3) {
+    animation-delay: -6s;
+  }
+
+  @keyframes hero-fade {
+    0% { opacity: 1; }
+    27.8% { opacity: 1; }
+    33.3% { opacity: 0; }
+    94.5% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide {
+      animation: none;
+    }
+  }
+
+  .hero-slides::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(36, 48, 52, 0.72) 20%, rgba(46, 62, 66, 0.45));
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-card {
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    border-top: 6px solid var(--brick);
+    padding: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+    max-width: 42rem;
+    margin-inline: auto;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(36, 48, 52, 0.35);
+    animation: hero-rise 0.7s ease-out both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .hero h1 {
+    max-width: 16ch;
+    margin-inline: auto;
+  }
+
+  .hero-accent {
+    color: var(--brick);
+  }
+
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+
+  .hero .cta-cluster {
+    justify-content: center;
+  }
+
+  .hero-btn {
+    font-size: var(--text-lg);
+    padding: 1rem 2.4rem;
+  }
+
+  .hero-phone {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.1rem);
+  }
+
+  .trust-strip {
+    margin-top: 2.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(46, 62, 66, 0.18);
+    color: var(--brick-dark);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+
+  /* Services cards */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-link {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    font-weight: 700;
+    color: var(--brick-dark);
+  }
+
+  /* Meet Mark */
+  .meet-mark {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: minmax(14rem, 22rem) 1fr;
+    align-items: center;
+  }
+
+  .headshot {
+    aspect-ratio: 1;
+    width: 100%;
+  }
+
+  @media (max-width: 740px) {
+    .meet-mark {
+      grid-template-columns: 1fr;
+    }
+
+    .headshot {
+      max-width: 18rem;
+    }
+  }
+</style>

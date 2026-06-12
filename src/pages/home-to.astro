@@ -1,0 +1,460 @@
+---
+import Base from '../layouts/Base.astro';
+import { PHONE_DISPLAY, PHONE_TEL } from '../config';
+
+const slides = [
+  {
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/7/70/Parliament_House_roof_pano%2C_Canberra.jpg',
+    alt: 'A wide rooftop panorama used as a hero background.',
+  },
+  {
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/8/89/Brick_roof_house_%CC%A0_1.jpg',
+    alt: 'A house with a steep brick roof.',
+  },
+  {
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/f/fc/Dixon%2C_New_Orleans%2C_5_October_2021_-_Residential_Architecture_46.jpg',
+    alt: 'Residential roofline with warm daylight.',
+  },
+  {
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/e/e9/House_Style_With_Zinc_Roof_%28cropped%29.JPG',
+    alt: 'A contemporary home roof detail.',
+  },
+];
+
+const trustPoints = [
+  'Owner-led inspections',
+  'Storm and insurance guidance',
+  'Repair or replacement, clearly scoped',
+];
+---
+
+<Base
+  title="Home To | Otter Roofing"
+  description="Standalone concept page for a redesigned Otter Roofing home hero with custom navigation and a roof-image slideshow background."
+  hideHeader={true}
+>
+  <section class="home-to-hero">
+    <div class="hero-slides" aria-hidden="true">
+      {slides.map((slide, index) => (
+        <div
+          class={`hero-slide${index === 0 ? ' is-active' : ''}`}
+          data-slide
+          style={`background-image: url('${slide.image}');`}
+        />
+      ))}
+    </div>
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div class="container home-to-shell">
+      <header class="home-to-nav">
+        <a href="/" class="home-to-brand" aria-label="Otter Roofing home">
+          <img src="/logo.svg" alt="Otter Roofing logo" width="56" height="56" />
+          <span>
+            <strong>Otter Roofing</strong>
+            <em>Jacksonville, Florida</em>
+          </span>
+        </a>
+
+        <nav aria-label="Home To preview navigation">
+          <ul class="home-to-links">
+            <li><a href="#why-otter">Why Otter</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/about">About Mark</a></li>
+          </ul>
+        </nav>
+
+        <div class="home-to-actions">
+          <a class="home-to-phone" href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
+          <a class="btn home-to-call" href={`tel:${PHONE_TEL}`}>Talk to Mark</a>
+        </div>
+      </header>
+
+      <div class="hero-card">
+        <p class="hero-kicker">For Jacksonville homeowners who want the owner on the job</p>
+        <h1>
+          When the storm moves on,
+          <span>your roofer shouldn&apos;t.</span>
+        </h1>
+        <p class="hero-copy">
+          Otter Roofing keeps the process direct: one owner, one inspection,
+          one clear plan for repair, replacement, or insurance next steps.
+        </p>
+
+        <div class="hero-cta-row">
+          <a class="btn hero-primary" href={`tel:${PHONE_TEL}`}>Book a roof inspection</a>
+          <a class="hero-secondary" href="/services">
+            Explore services
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <ul class="hero-trust-list" aria-label="Key service highlights">
+          {trustPoints.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-to-followup" id="why-otter" aria-labelledby="home-to-followup-heading">
+    <div class="container home-to-followup-grid">
+      <div>
+        <span class="kicker">Home To Concept</span>
+        <h2 id="home-to-followup-heading">A sharper first impression without touching the live homepage</h2>
+      </div>
+      <p>
+        This page is intentionally isolated from the main navigation. It gives
+        you a cleaner nav treatment, a more premium brand card, and a rotating
+        roof-photo backdrop you can review before replacing the current hero.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const slides = Array.from(document.querySelectorAll<HTMLElement>('[data-slide]'));
+    let activeIndex = 0;
+    let intervalId: number | undefined;
+
+    const setActiveSlide = (nextIndex: number) => {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('is-active', index === nextIndex);
+      });
+      activeIndex = nextIndex;
+    };
+
+    const startSlideshow = () => {
+      if (reduceMotion.matches || slides.length < 2) return;
+      intervalId = window.setInterval(() => {
+        setActiveSlide((activeIndex + 1) % slides.length);
+      }, 5200);
+    };
+
+    const stopSlideshow = () => {
+      if (intervalId) window.clearInterval(intervalId);
+    };
+
+    startSlideshow();
+
+    reduceMotion.addEventListener('change', (event) => {
+      stopSlideshow();
+      if (!event.matches) startSlideshow();
+    });
+  </script>
+</Base>
+
+<style>
+  .home-to-hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: clip;
+    background: var(--slate-deep);
+    color: var(--cream);
+  }
+
+  .hero-slides,
+  .hero-wash,
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0;
+    transform: scale(1.08);
+    transition: opacity 1.2s ease, transform 6.5s ease;
+  }
+
+  .hero-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .hero-wash {
+    background:
+      linear-gradient(180deg, rgba(24, 31, 34, 0.2), rgba(24, 31, 34, 0.72)),
+      radial-gradient(circle at 50% 45%, rgba(217, 185, 138, 0.14), transparent 48%);
+  }
+
+  .hero-grain {
+    opacity: 0.32;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 30px 30px;
+    mix-blend-mode: soft-light;
+  }
+
+  .home-to-shell {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: 100vh;
+    padding-block: 1.5rem 3rem;
+  }
+
+  .home-to-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding: 0.95rem 1.2rem;
+    margin-top: 0.4rem;
+    border: 1px solid rgba(247, 244, 238, 0.16);
+    border-radius: 999px;
+    background: rgba(20, 27, 30, 0.5);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 60px rgba(14, 16, 18, 0.22);
+  }
+
+  .home-to-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+  }
+
+  .home-to-brand strong,
+  .home-to-brand em {
+    display: block;
+  }
+
+  .home-to-brand strong {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--white);
+    font-style: normal;
+    line-height: 1;
+  }
+
+  .home-to-brand em {
+    margin-top: 0.2rem;
+    color: rgba(247, 244, 238, 0.78);
+    font-size: 0.92rem;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-to-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .home-to-links a,
+  .home-to-phone {
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .home-to-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.8rem;
+    padding: 0.55rem 0.95rem;
+    font-weight: 600;
+    border-radius: 999px;
+  }
+
+  .home-to-links a:hover,
+  .home-to-links a:focus-visible {
+    background: rgba(247, 244, 238, 0.1);
+    color: var(--white);
+  }
+
+  .home-to-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .home-to-phone {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .home-to-call {
+    min-height: 3rem;
+    padding-inline: 1.4rem;
+    border-radius: 999px;
+    background: var(--tan);
+    color: var(--slate-deep);
+  }
+
+  .home-to-call:hover {
+    background: #e5c89d;
+    color: var(--slate-deep);
+  }
+
+  .hero-card {
+    align-self: center;
+    width: min(44rem, 100%);
+    margin-block: 3.5rem 2rem;
+    padding: clamp(1.8rem, 1.25rem + 2vw, 3.4rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
+    background:
+      linear-gradient(145deg, rgba(24, 31, 34, 0.88), rgba(36, 48, 52, 0.94)),
+      rgba(24, 31, 34, 0.92);
+    box-shadow: 0 24px 90px rgba(14, 16, 18, 0.38);
+  }
+
+  .hero-kicker {
+    max-width: none;
+    margin-bottom: 1rem;
+    color: var(--tan);
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .hero-card h1,
+  .hero-card h1 span {
+    color: var(--white);
+  }
+
+  .hero-card h1 {
+    max-width: 10ch;
+    font-size: clamp(2.9rem, 2.1rem + 4vw, 5.8rem);
+    line-height: 0.96;
+  }
+
+  .hero-card h1 span {
+    display: block;
+    color: var(--tan);
+  }
+
+  .hero-copy {
+    margin-top: 1.5rem;
+    max-width: 34ch;
+    font-size: clamp(1.1rem, 1rem + 0.55vw, 1.45rem);
+    color: rgba(247, 244, 238, 0.88);
+  }
+
+  .hero-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .hero-primary {
+    background: var(--tan);
+    color: var(--slate-deep);
+    min-height: 3.6rem;
+    padding-inline: 1.6rem;
+    border-radius: 999px;
+  }
+
+  .hero-primary:hover {
+    background: #e5c89d;
+    color: var(--slate-deep);
+  }
+
+  .hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 700;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .hero-secondary:hover {
+    color: var(--tan);
+  }
+
+  .hero-trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 2.2rem;
+  }
+
+  .hero-trust-list li {
+    padding: 0.7rem 1rem;
+    border: 1px solid rgba(247, 244, 238, 0.14);
+    border-radius: 999px;
+    background: rgba(247, 244, 238, 0.06);
+    color: rgba(247, 244, 238, 0.9);
+    font-size: 0.98rem;
+  }
+
+  .home-to-followup {
+    background: linear-gradient(180deg, #fff9f1 0%, var(--cream) 100%);
+  }
+
+  .home-to-followup-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1080px) {
+    .home-to-nav {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      border-radius: 1.6rem;
+      text-align: center;
+    }
+
+    .home-to-links,
+    .home-to-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .home-to-shell {
+      padding-block-end: 2rem;
+    }
+
+    .home-to-nav {
+      padding: 1rem;
+    }
+
+    .home-to-links {
+      gap: 0.1rem;
+    }
+
+    .hero-card {
+      width: 100%;
+      margin-top: 2.25rem;
+      border-radius: 1.5rem;
+    }
+
+    .hero-card h1 {
+      max-width: 11ch;
+    }
+
+    .home-to-followup-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide {
+      transition: none;
+    }
+  }
+</style>
