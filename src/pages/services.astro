@@ -230,8 +230,51 @@ const faqSchema = {
 </Base>
 
 <style>
+  /* Hero: roof photo background with dark overlay */
+  .page-hero {
+    position: relative;
+    background-image: url('/assets/hero/hero-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--slate-deep);
+  }
+
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(36, 48, 52, 0.78) 25%, rgba(46, 62, 66, 0.55));
+    pointer-events: none;
+  }
+
+  .page-hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-hero .kicker {
+    color: var(--tan);
+  }
+
   .page-hero h1 {
     max-width: 22ch;
+    color: var(--cream);
+  }
+
+  .page-hero .section-intro {
+    color: var(--cream);
+  }
+
+  .page-hero .phone-caption {
+    color: var(--tan);
+  }
+
+  .page-hero .phone-plain {
+    color: var(--cream);
+  }
+
+  .page-hero .phone-plain:hover {
+    color: var(--tan);
   }
 
   .material-grid {
@@ -343,10 +386,10 @@ const faqSchema = {
     transition: opacity 0.78s ease, transform 0.78s ease;
   }
 
-  .promise-list.is-visible li:nth-child(1) { transition-delay: 0.05s; }
-  .promise-list.is-visible li:nth-child(2) { transition-delay: 0.57s; }
-  .promise-list.is-visible li:nth-child(3) { transition-delay: 1.09s; }
-  .promise-list.is-visible li:nth-child(4) { transition-delay: 1.61s; }
+  .promise-list.is-visible li:nth-child(1) { transition-delay: 1.5s; }
+  .promise-list.is-visible li:nth-child(2) { transition-delay: 2.07s; }
+  .promise-list.is-visible li:nth-child(3) { transition-delay: 2.64s; }
+  .promise-list.is-visible li:nth-child(4) { transition-delay: 3.21s; }
 
   .promise-list.is-visible li {
     opacity: 1;
