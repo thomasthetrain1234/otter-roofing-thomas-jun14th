@@ -16,18 +16,26 @@ const differentiators = [
   {
     title: 'You talk to the owner. Every time.',
     text: 'One phone number, and Mark answers it. No call center, no sales rep, no game of telephone between five departments. The person who inspects your roof is the person who runs your job.',
+    img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80',
+    imgAlt: 'Contractor speaking directly with a homeowner on-site',
   },
   {
     title: 'Video inspections. See what he sees.',
     text: 'Mark climbs your roof and records the whole inspection on video. You see the actual damage with your own eyes before anyone says a word about money.',
+    img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80',
+    imgAlt: 'Roofer inspecting shingles on a residential roof',
   },
   {
     title: 'Insurance claims, guided start to finish.',
     text: 'If your roof looks like an insurance job, Mark builds the claim with you and stands on your roof next to the adjuster to advocate for you. If the claim gets denied, you owe him nothing.',
+    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80',
+    imgAlt: 'Homeowner and contractor reviewing insurance claim paperwork together',
   },
   {
     title: 'Eight years in the Marine Corps. It shows.',
     text: 'Mark served eight years as a Marine before he picked up a contractor license. The discipline stuck: straight answers, clean job sites, and follow-through on every detail.',
+    img: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=900&q=80',
+    imgAlt: 'American flag representing veteran pride and service',
   },
 ];
 
@@ -56,18 +64,24 @@ const services = [
     text: 'Shingle is the specialty, with metal and tile also on the menu. Full tear-off, clean install, full cleanup.',
     href: '/services#replacement',
     label: 'Replacement details',
+    img: 'https://images.unsplash.com/photo-1516912481808-3406841bd33c?auto=format&fit=crop&w=800&q=80',
+    imgAlt: 'Workers installing new shingles on a residential roof',
   },
   {
     title: 'Roof Repair',
     text: 'Storm damage, leaks, missing shingles, and the smaller fixes other companies will not pick up the phone for.',
     href: '/services#repairs',
     label: 'Repair details',
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
+    imgAlt: 'Close-up of storm-damaged roof shingles being repaired',
   },
   {
     title: 'Insurance Claim Help',
     text: 'Free inspection, honest read on your claim, and an advocate on the roof when the adjuster shows up.',
     href: '/services#insurance',
     label: 'How claims work',
+    img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80',
+    imgAlt: 'Contractor and homeowner reviewing insurance claim documents',
   },
 ];
 ---
@@ -112,23 +126,29 @@ const services = [
   </section>
 
   <!-- THE OTTER DIFFERENCE -->
-  <section class="section" aria-labelledby="difference-heading">
-    <div class="container">
+  <section aria-labelledby="difference-heading">
+    <div class="container diff-header">
       <span class="kicker">The Otter Difference</span>
       <h2 id="difference-heading">Why homeowners call Otter Roofing</h2>
-      <div class="card-grid">
-        {differentiators.map((item) => (
-          <article class="card">
+      <p class="diff-subtitle">Four things you won't find at any other roofing company in Jacksonville.</p>
+    </div>
+    {differentiators.map((item, i) => (
+      <div class={`diff-band${i % 2 === 1 ? ' diff-band--alt' : ''}`}>
+        <div class="container diff-band-inner">
+          <div class="diff-text">
             <h3>{item.title}</h3>
             <p>{item.text}</p>
-          </article>
-        ))}
+          </div>
+          <div class="diff-img-wrap">
+            <img src={item.img} alt={item.imgAlt} width="900" height="600" loading="lazy" />
+          </div>
+        </div>
       </div>
-    </div>
+    ))}
   </section>
 
   <!-- SERVICES OVERVIEW -->
-  <section class="section section--tan" aria-labelledby="services-heading">
+  <section class="section section--white" aria-labelledby="services-heading">
     <div class="container">
       <span class="kicker">Services</span>
       <h2 id="services-heading">Residential roofing in Jacksonville</h2>
@@ -138,7 +158,10 @@ const services = [
       </p>
       <div class="card-grid">
         {services.map((service) => (
-          <article class="card service-card">
+          <article
+            class="card service-card"
+            style={`background-image: url('${service.img}')`}
+          >
             <h3>{service.title}</h3>
             <p>{service.text}</p>
             <a class="service-link" href={service.href}>{service.label}</a>
@@ -151,7 +174,7 @@ const services = [
   <ProcessSteps steps={steps} />
 
   <!-- MEET MARK TEASER -->
-  <section class="section section--tan" aria-labelledby="mark-heading">
+  <section class="section section--tan meet-mark-section" aria-labelledby="mark-heading">
     <div class="container meet-mark">
       <!-- HEADSHOT SLOT: replace with /public/assets/about/mark-headshot.jpg
            (square, at least 800x800). See ASSETS.md. -->
@@ -180,6 +203,7 @@ const services = [
 
   <CtaBand />
 </Base>
+
 
 <style>
   /* HERO: three photos crossfade behind a single content card. The slate
@@ -251,7 +275,7 @@ const services = [
     border-radius: var(--radius-lg);
     border-top: 6px solid var(--brick);
     padding: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
-    max-width: 42rem;
+    width: min(64rem, calc(100vw - 2rem));
     margin-inline: auto;
     text-align: center;
     box-shadow: 0 24px 60px rgba(36, 48, 52, 0.35);
@@ -299,9 +323,11 @@ const services = [
   }
 
   .trust-strip {
+    max-width: none;
     margin-top: 2.25rem;
     padding-top: 1.25rem;
     border-top: 1px solid rgba(46, 62, 66, 0.18);
+    text-align: center;
     color: var(--brick-dark);
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -309,24 +335,179 @@ const services = [
     text-transform: uppercase;
   }
 
-  /* Services cards */
+  /* White section variant */
+  .section--white {
+    background: var(--white);
+  }
+
+  /* Otter Difference: alternating bands */
+  .diff-header {
+    padding-block: clamp(3rem, 2.5rem + 2vw, 5rem) clamp(0.5rem, 0.375rem + 0.5vw, 1rem);
+    text-align: center;
+  }
+
+  .diff-subtitle {
+    color: var(--tan);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-top: 0.75rem;
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+
+  .diff-band {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5.5rem);
+    background: var(--cream);
+  }
+
+  .diff-band--alt {
+    background: var(--tan-soft);
+  }
+
+  .diff-band-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem 6%;
+    align-items: center;
+  }
+
+  .diff-band--alt .diff-img-wrap {
+    order: -1;
+  }
+
+  .diff-text h3 {
+    font-size: var(--text-display-sm);
+    margin-bottom: 1.1rem;
+    color: var(--slate);
+  }
+
+  .diff-text p {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    max-width: 46ch;
+  }
+
+  .diff-img-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    aspect-ratio: 3 / 2;
+  }
+
+  .diff-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .diff-img-wrap:hover img {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 740px) {
+    .diff-band-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .diff-band--alt .diff-img-wrap {
+      order: 0;
+    }
+
+    .diff-img-wrap {
+      max-height: 22rem;
+    }
+  }
+
+  /* Services cards — image background with vignette */
   .service-card {
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    min-height: 22rem;
+    background-color: var(--slate-deep);
+    background-size: cover;
+    background-position: center;
+    border-top-color: transparent;
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Edge vignette: dark perimeter fades to reveal image in centre,
+     plus a stronger bottom gradient so text always has contrast. */
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(ellipse at center, transparent 10%, rgba(20, 28, 30, 0.68) 100%),
+      linear-gradient(to top, rgba(20, 28, 30, 0.92) 0%, rgba(20, 28, 30, 0.25) 55%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .service-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .service-card h3 {
+    color: var(--white);
+  }
+
+  .service-card p {
+    color: rgba(247, 244, 238, 0.85);
+  }
+
+  .card-grid:has(.service-card:hover) .service-card {
+    transform: scale(0.94);
+    opacity: 0.75;
+  }
+
+  .card-grid:has(.service-card:hover) .service-card:hover {
+    transform: scale(1.06);
+    opacity: 1;
+    box-shadow: 0 16px 48px rgba(20, 28, 30, 0.35);
   }
 
   .service-link {
     margin-top: auto;
     padding-top: 1.25rem;
     font-weight: 700;
-    color: var(--brick-dark);
+    color: var(--tan);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s ease, gap 0.2s ease;
+  }
+
+  .service-link::after {
+    content: '→';
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .service-link:hover {
+    color: var(--white);
+    gap: 0.7rem;
+  }
+
+  .service-link:hover::after {
+    transform: translateX(4px);
   }
 
   /* Meet Mark */
+  .meet-mark-section {
+    padding-block: clamp(5rem, 4rem + 4vw, 8.5rem);
+  }
+
   .meet-mark {
     display: grid;
-    gap: 2.5rem;
-    grid-template-columns: minmax(14rem, 22rem) 1fr;
+    gap: 3.5rem;
+    grid-template-columns: minmax(20rem, 32rem) 1fr;
     align-items: center;
   }
 
@@ -335,13 +516,14 @@ const services = [
     width: 100%;
   }
 
+
   @media (max-width: 740px) {
     .meet-mark {
       grid-template-columns: 1fr;
     }
 
     .headshot {
-      max-width: 18rem;
+      max-width: 24rem;
     }
   }
 </style>

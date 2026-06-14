@@ -102,7 +102,7 @@ const faqSchema = {
             under a new surface.
           </p>
         </article>
-        <article class="card" id="metal">
+        <article class="card" id="metal" data-small>
           <h3>Metal</h3>
           <p>
             Higher cost up front, decades more life. Metal stands up well to
@@ -111,7 +111,7 @@ const faqSchema = {
             look. Mark will give you the honest math on both options.
           </p>
         </article>
-        <article class="card" id="tile">
+        <article class="card" id="tile" data-small>
           <h3>Tile</h3>
           <p>
             The right fit for certain home styles, and a system that demands
@@ -152,28 +152,32 @@ const faqSchema = {
   <!-- INSURANCE CLAIMS -->
   <section class="section section--slate" id="insurance" aria-labelledby="insurance-heading">
     <div class="container">
-      <span class="kicker">Insurance Claims</span>
-      <h2 id="insurance-heading">If your claim gets denied, you owe nothing</h2>
-      <p class="section-intro">
-        Here is the deal, in plain English. If Mark inspects your roof and
-        believes your insurance company is likely to cover it, you sign a
-        contingency agreement. That means he guides your entire claim: the
-        paperwork, the documentation, the phone calls, and he stands on your
-        roof next to the adjuster at the inspection to advocate for you.
-      </p>
-      <p class="section-intro">
-        You only commit to Otter Roofing as your contractor if the insurance
-        company approves the claim for a replacement. If they say no, Mark
-        shakes your hand and walks away. No fee, no invoice, no fine print.
-        That is the whole agreement.
-      </p>
-      <ul class="promise-list">
-        <li>Free video inspection first, so you see the damage yourself</li>
-        <li>Honest read on whether a claim is even worth filing</li>
-        <li>Mark attends the adjuster's inspection in person</li>
-        <li>You owe nothing if the claim is denied</li>
-      </ul>
-      <div class="cta-cluster">
+      <div class="insurance-layout">
+        <div class="insurance-copy">
+          <span class="kicker">Insurance Claims</span>
+          <h2 id="insurance-heading">If your claim gets denied, you owe nothing</h2>
+          <p class="section-intro insurance-intro">
+            Here is the deal, in plain English. If Mark inspects your roof and
+            believes your insurance company is likely to cover it, you sign a
+            contingency agreement. That means he guides your entire claim: the
+            paperwork, the documentation, the phone calls, and he stands on your
+            roof next to the adjuster at the inspection to advocate for you.
+          </p>
+          <p class="section-intro insurance-intro">
+            You only commit to Otter Roofing as your contractor if the insurance
+            company approves the claim for a replacement. If they say no, Mark
+            shakes your hand and walks away. No fee, no invoice, no fine print.
+            That is the whole agreement.
+          </p>
+        </div>
+        <ul class="promise-list">
+          <li>Free video inspection first, so you see the damage yourself</li>
+          <li>Honest read on whether a claim is even worth filing</li>
+          <li>Mark attends the adjuster's inspection in person</li>
+          <li>You owe nothing if the claim is denied</li>
+        </ul>
+      </div>
+      <div class="cta-cluster insurance-cta">
         <a class="btn btn--primary" href={`tel:${PHONE_TEL}`}>Talk to Mark about your claim</a>
         <div>
           <p class="phone-caption phone-caption--light">Call or text</p>
@@ -235,9 +239,10 @@ const faqSchema = {
     gap: 1.5rem;
     margin-top: 2.5rem;
     grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    transition: gap 0.3s ease;
   }
 
-  /* Shingle card gets visual lead weight to match its lead emphasis */
+  /* Mobile: shingle full-width with slate bar */
   .material-grid #shingle {
     grid-column: 1 / -1;
     border-top-color: var(--slate);
@@ -246,11 +251,37 @@ const faqSchema = {
   @media (min-width: 900px) {
     .material-grid {
       grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
     }
 
-    .material-grid #shingle {
-      grid-column: auto;
-      grid-row: 1 / 3;
+    /* Default: shingle big left (slate bar), metal/tile tiles (brick bar) */
+    .material-grid #shingle { grid-column: 1; grid-row: 1 / 3; border-top-color: var(--slate); }
+    .material-grid #metal   { grid-column: 2; grid-row: 1;     border-top-color: var(--brick); }
+    .material-grid #tile    { grid-column: 2; grid-row: 2;     border-top-color: var(--brick); }
+
+    /* Metal featured: metal → left big (slate), shingle → right top (brick) */
+    .material-grid:has(#metal[data-featured]) #shingle { grid-column: 2; grid-row: 1; border-top-color: var(--brick); }
+    .material-grid:has(#metal[data-featured]) #metal   { grid-column: 1; grid-row: 1 / 3; border-top-color: var(--slate); }
+    .material-grid:has(#metal[data-featured]) #tile    { grid-column: 2; grid-row: 2; }
+
+    /* Tile featured: tile → left big (slate), shingle → right top (brick) */
+    .material-grid:has(#tile[data-featured]) #shingle { grid-column: 2; grid-row: 1; border-top-color: var(--brick); }
+    .material-grid:has(#tile[data-featured]) #metal   { grid-column: 2; grid-row: 2; }
+    .material-grid:has(#tile[data-featured]) #tile    { grid-column: 1; grid-row: 1 / 3; border-top-color: var(--slate); }
+
+    /* Dim the tiles when a non-default card is featured */
+    .material-grid:has(#metal[data-featured]) #shingle,
+    .material-grid:has(#metal[data-featured]) #tile,
+    .material-grid:has(#tile[data-featured]) #shingle,
+    .material-grid:has(#tile[data-featured]) #metal {
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Tile cards: cursor indicates they're interactive */
+    .material-grid #metal,
+    .material-grid #tile {
+      cursor: pointer;
     }
   }
 
@@ -258,34 +289,81 @@ const faqSchema = {
     margin-top: 1rem;
   }
 
+  /* Smaller type when a card occupies the compact right-column position */
+  @media (min-width: 900px) {
+    .material-grid [data-small] h3 {
+      font-size: 1.05rem;
+    }
+    .material-grid [data-small] p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+
+  /* Insurance section: two-column layout */
+  .insurance-layout {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .insurance-layout {
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+  }
+
+  /* Slightly tighter body text inside the two-col layout */
+  .insurance-intro {
+    font-size: var(--text-base);
+  }
+
+  /* CTA centered below both columns */
+  .insurance-cta {
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
   .promise-list {
-    margin-top: 2rem;
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 0.85rem;
-    max-width: 38rem;
+    gap: 1.75rem;
   }
 
   .promise-list li {
     position: relative;
-    padding-left: 2.1rem;
+    padding-left: 2.75rem;
     color: var(--cream);
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: 600;
+    opacity: 0;
+    transform: translateX(18px);
+    transition: opacity 0.78s ease, transform 0.78s ease;
+  }
+
+  .promise-list.is-visible li:nth-child(1) { transition-delay: 0.05s; }
+  .promise-list.is-visible li:nth-child(2) { transition-delay: 0.57s; }
+  .promise-list.is-visible li:nth-child(3) { transition-delay: 1.09s; }
+  .promise-list.is-visible li:nth-child(4) { transition-delay: 1.61s; }
+
+  .promise-list.is-visible li {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .promise-list li::before {
     content: '✓';
     position: absolute;
     left: 0;
-    top: 0;
-    width: 1.5rem;
-    height: 1.5rem;
+    top: 0.1em;
+    width: 1.75rem;
+    height: 1.75rem;
     border-radius: 50%;
     background: var(--tan);
     color: var(--slate);
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 800;
     display: inline-flex;
     align-items: center;
@@ -347,3 +425,144 @@ const faqSchema = {
     padding: 0 1.5rem 1.4rem;
   }
 </style>
+
+<script>
+  // --- Material grid: FLIP position-swap animation ---
+  // Cursor zone detection uses fixed grid coords (not card-level events) to
+  // avoid mouseenter/mouseleave loops when cards reposition under the cursor.
+  const grid    = document.querySelector('.material-grid') as HTMLElement | null;
+  const shingle = document.getElementById('shingle') as HTMLElement | null;
+  const metal   = document.getElementById('metal')   as HTMLElement | null;
+  const tile    = document.getElementById('tile')    as HTMLElement | null;
+
+  let currentFeatured: string | null = null;
+  let pendingFeatured: string | null | undefined = undefined;
+  let animating = false;
+
+  function applyFeatured(id: string | null) {
+    currentFeatured = id;
+    metal?.removeAttribute('data-featured');
+    tile?.removeAttribute('data-featured');
+    [shingle, metal, tile].forEach(c => c?.removeAttribute('data-small'));
+
+    if (id === 'metal') {
+      metal?.setAttribute('data-featured', '');
+      shingle?.setAttribute('data-small', '');
+      tile?.setAttribute('data-small', '');
+    } else if (id === 'tile') {
+      tile?.setAttribute('data-featured', '');
+      shingle?.setAttribute('data-small', '');
+      metal?.setAttribute('data-small', '');
+    } else {
+      metal?.setAttribute('data-small', '');
+      tile?.setAttribute('data-small', '');
+    }
+  }
+
+  function setFeatured(id: string | null) {
+    if (id === currentFeatured) return;
+    if (animating) { pendingFeatured = id; return; }
+    animating = true;
+
+    const cards = [shingle, metal, tile].filter((c): c is HTMLElement => c !== null);
+
+    // FIRST: snapshot each card's position and opacity before anything changes
+    const firsts = cards.map(c => ({
+      rect:    c.getBoundingClientRect(),
+      opacity: getComputedStyle(c).opacity,
+    }));
+
+    // Swap the grid layout (DOM changes, cards jump to new positions)
+    applyFeatured(id);
+
+    // LAST: snapshot new positions
+    const lasts = cards.map(c => c.getBoundingClientRect());
+
+    // INVERT: push each card back to where it came from using transforms
+    cards.forEach((card, i) => {
+      const f = firsts[i].rect;
+      const l = lasts[i];
+      const sx = l.width  ? f.width  / l.width  : 1;
+      const sy = l.height ? f.height / l.height : 1;
+      card.style.transformOrigin = '0 0';
+      card.style.transition      = 'none';
+      card.style.transform       = `translate(${f.left - l.left}px, ${f.top - l.top}px) scale(${sx}, ${sy})`;
+      card.style.opacity         = firsts[i].opacity;
+      card.style.zIndex          = '2';
+    });
+
+    // Force reflow so the browser registers the inverted state before animating
+    void grid?.offsetHeight;
+
+    // Target opacity for each card in the new state
+    function targetOpacity(cardId: string): string {
+      if (id === null) return '1';
+      return cardId === id ? '1' : '0.7';
+    }
+
+    // PLAY: animate each card from its inverted position to its natural position
+    const dur  = 420;
+    const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    cards.forEach(card => {
+      card.style.transition = `transform ${dur}ms ${ease}, opacity ${dur}ms ${ease}`;
+      card.style.transform  = '';
+      card.style.opacity    = targetOpacity(card.id);
+    });
+
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.style.transition      = '';
+        card.style.transform       = '';
+        card.style.transformOrigin = '';
+        card.style.opacity         = '';
+        card.style.zIndex          = '';
+      });
+      animating = false;
+      if (pendingFeatured !== undefined) {
+        const next = pendingFeatured;
+        pendingFeatured = undefined;
+        setFeatured(next);
+      }
+    }, dur + 20);
+  }
+
+  // Initialise: metal and tile start in the small positions
+  applyFeatured(null);
+
+  if (grid) {
+    grid.addEventListener('pointermove', (e) => {
+      const rect = grid.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      // Only trigger when cursor is in the right half (where Metal/Tile live)
+      if (x > rect.width * 0.5) {
+        setFeatured(y < rect.height * 0.5 ? 'metal' : 'tile');
+      }
+    });
+
+    grid.addEventListener('mouseleave', () => setFeatured(null));
+  }
+
+  // --- Promise list: reveal bullets one at a time on scroll ---
+  const promiseList = document.querySelector<HTMLElement>('#insurance .promise-list');
+  if (promiseList) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(promiseList);
+  }
+
+  // --- FAQ: open on hover, close on mouseleave ---
+  document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach(item => {
+    item.addEventListener('mouseenter', () => { item.open = true; });
+    item.addEventListener('mouseleave', () => { item.open = false; });
+  });
+</script>
